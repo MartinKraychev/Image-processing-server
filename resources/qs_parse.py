@@ -1,22 +1,33 @@
+import json
 from urllib.parse import parse_qs, urlparse
 import cv2
 import numpy as np
+import re
 
 """
 
-rotate - {'rotate': {angle: 45}}
-resize - {'resize': {'height': '300', 'width': '300'}}
-crop - {'crop': {'height': '300', 'width': '300'}}
-flip - {'flip': {'code': 1}}
-grayscale - {'grayscale': {'condition': 'True'}}
+rotate - {'rotate':{angle:45}}
+resize - {'resize':{'height':'300','width':'300'}}
+crop - {'crop':{'height':'300','width':'300'}}
+flip - {'flip':{'code':1}}
+grayscale - {'grayscale':{'condition':'True'}}
 
 """
 
-url = "http://www.example.org/image.jpg?resize={width:300,height:300}&crop={}"
+url = "http://www.example.org/image.jpg?option={rotate:{angle:45}}&option={flip:{code:1}}&option={rotate:{angle:45}}"
+url2 = "http://www.example.org/image.jpg?option={'rotate':{'angle':45}}&option={'flip':{'code':1}}&option={'rotate':{'angle':45}}"
 
-query = urlparse(url).query
+query = urlparse(url2).query
 params = parse_qs(query)
-print(params)
+print("params.values", params.values())
+
+
+for value in params.values():
+    for i in value:
+        j = re.sub("'", "\"", i)
+        print("j---------", j)
+        str_to_dict = json.loads(j)
+        print(str_to_dict)
 
 
 def option_rotate(image_path: str, angle: int):
@@ -41,7 +52,7 @@ def option_rotate(image_path: str, angle: int):
     # rotate the image using cv2.warpAffine
     rotated_image = cv2.warpAffine(src=src, M=rotate_matrix, dsize=(new_width, new_height))
 
-    cv2.imshow('Rotated image', rotated_image)
+    cv2.imshow("Rotated image", rotated_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
@@ -50,7 +61,7 @@ def option_resize(image_path: str, height: int, width: int):
     src = cv2.imread(image_path)
     print("Original Dimensions : ", src.shape)
 
-    dim = (height, width)
+    dim = (width, height)
 
     resized_img = cv2.resize(src, dim, interpolation=cv2.INTER_AREA)
 
@@ -63,15 +74,11 @@ def option_crop(image_path: str, crop_height: int, crop_width: int):
     src = cv2.imread(image_path)
     print("Original Dimensions : ", src.shape)
 
-    src_height, src_width = src.shape[:2]
+    cropped_img = src[0:crop_height, 0:crop_width]
 
-    if crop_height <= src_width and crop_height <= src_width:
-        cropped_img = src[0:crop_height, 0:crop_width]
-        cv2.imshow("Cropped Image", cropped_img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-    else:
-        return "Crop width or crop height values are invalid!"
+    cv2.imshow("Cropped Image", cropped_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def option_grayscale(image_path: str):
@@ -96,6 +103,7 @@ def option_flip(image_path: str, flip_code: int):
     """
 
     flipped_img = cv2.flip(src, flipCode=flip_code)
+
     cv2.imshow("Flipped Image", flipped_img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -105,13 +113,13 @@ mapper = {
     "rotate": "rotate",
 }
 
-for key, value in params.items():
-    if key in mapper:
-        mapper[key]()
+# for key, value in params.items():
+#     if key in mapper:
+#         mapper[key]()
 
-# option_resize("1.jpg", 300, 300)
-# option_crop("1.jpg", 300, 300)
-option_rotate("1.jpg", 67)
+# option_resize("1.jpg", 300, 650)
+# option_crop("1.jpg", 500, 200)
+# option_rotate("1.jpg", 67)
 # option_grayscale("1.jpg")
 # option_flip("1.jpg", 1)
 # rotate_bound("1.jpg", 45)
