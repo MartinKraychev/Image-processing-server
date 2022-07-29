@@ -8,7 +8,7 @@ from models.original_img import OriginalImageModel
 from resources.utils.file_helpers import check_allowed_file_type, check_file_size
 from resources.utils.resource_fields import img_resource_field
 
-UPLOAD_FOLDER = 'static/images'
+UPLOAD_FOLDER = 'static/original_images'
 
 
 class UploadImage(Resource):
