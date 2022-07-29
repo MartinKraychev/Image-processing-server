@@ -1,8 +1,9 @@
 import json
+import re
 from urllib.parse import parse_qs, urlparse
+
 import cv2
 import numpy as np
-import re
 
 """
 
@@ -16,18 +17,15 @@ grayscale - {'grayscale':{'condition':'True'}}
 
 url = "http://www.example.org/image.jpg?option={rotate:{angle:45}}&option={flip:{code:1}}&option={rotate:{angle:45}}"
 url2 = "http://www.example.org/image.jpg?option={'rotate':{'angle':45}}&option={'flip':{'code':1}}&option={'rotate':{'angle':45}}"
+url3 = "http://www.example.org/image.jpg?rotate={'rotate':{'angle':45}}&flip={'flip':{'code':1}}&rotate={'rotate':{'angle':45}}"
 
 query = urlparse(url2).query
 params = parse_qs(query)
-print("params.values", params.values())
+print("params: ", params)
 
 
-for value in params.values():
-    for i in value:
-        j = re.sub("'", "\"", i)
-        print("j---------", j)
-        str_to_dict = json.loads(j)
-        print(str_to_dict)
+def read_image():
+    pass
 
 
 def option_rotate(image_path: str, angle: int):
@@ -81,17 +79,6 @@ def option_crop(image_path: str, crop_height: int, crop_width: int):
     cv2.destroyAllWindows()
 
 
-def option_grayscale(image_path: str):
-    src = cv2.imread(image_path)
-    print("Original Dimensions : ", src.shape)
-
-    grayscale_image = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
-
-    cv2.imshow("Grayscale image", grayscale_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-
 def option_flip(image_path: str, flip_code: int):
     src = cv2.imread(image_path)
     print("Original Dimensions : ", src.shape)
@@ -109,13 +96,36 @@ def option_flip(image_path: str, flip_code: int):
     cv2.destroyAllWindows()
 
 
+def option_grayscale(image_path: str):
+    src = cv2.imread(image_path)
+    print("Original Dimensions : ", src.shape)
+
+    grayscale_image = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+
+    cv2.imshow("Grayscale image", grayscale_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
 mapper = {
     "rotate": "rotate",
+    "resize": "resize",
+    "crop": "crop",
+    "flip": "flip",
+    "grayscale": "grayscale",
 }
 
-# for key, value in params.items():
-#     if key in mapper:
-#         mapper[key]()
+for key, value in params.items():
+    print('key: ', key)
+    print('value: ', value)
+    # if key in mapper:
+    #     mapper[key]()
+
+# for value in params.values():
+#     for dict_as_string in value:
+#         clean_string = re.sub("'", "\"", dict_as_string)
+#         str_to_dict = json.loads(clean_string)
+#         print(str_to_dict)
 
 # option_resize("1.jpg", 300, 650)
 # option_crop("1.jpg", 500, 200)
