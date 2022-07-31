@@ -33,7 +33,7 @@ class GetImage(Resource):
 
         img_path, img_filename = image_processor(image.path, parsed_pairs)
         filename = secure_filename(img_filename)
-        img = ProcessedImageModel(filename=filename, path=img_path)
+        img = ProcessedImageModel(filename=filename, path=img_path+filename)
         img.save_to_db()
 
-        return marshal(image, img_resource_field), 201
+        return marshal(img, img_resource_field), 201
