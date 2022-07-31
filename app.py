@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 # Create .env file and have DATABASE_URL and SECRET_KEY variables in it
 # This command loads the variables
+from resources.processed_img import GetImage
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -22,7 +24,8 @@ db.init_app(app)
 app.secret_key = os.getenv('SECRET_KEY')
 
 
-api.add_resource(UploadImage, '/upload')
+api.add_resource(UploadImage, '/images')
+api.add_resource(GetImage, '/image/<string:img_id>')
 
 
 @app.before_first_request
