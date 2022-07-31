@@ -16,7 +16,7 @@ class GetImage(Resource):
     @staticmethod
     def get(img_id):
         if not is_valid_uuid(img_id):
-            return {'message': 'Invalid ID type'}
+            return {'message': 'Invalid ID type'}, 400
 
         image = OriginalImageModel.query.filter_by(id=img_id).first()
 
