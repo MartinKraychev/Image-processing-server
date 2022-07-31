@@ -1,15 +1,15 @@
 import os
 
+from dotenv import load_dotenv
 from flask import Flask
 from flask_restful import Api
 
 from db import db
 from resources.original_img import UploadImage
-from dotenv import load_dotenv
+from resources.processed_img import GetImage
 
 # Create .env file and have DATABASE_URL and SECRET_KEY variables in it
 # This command loads the variables
-from resources.processed_img import GetImage
 
 load_dotenv()
 

@@ -3,9 +3,11 @@ from urllib.parse import urlsplit, parse_qsl
 
 from flask import request
 from flask_restful import Resource, marshal
+from werkzeug.utils import secure_filename
 
 from models.original_img import OriginalImageModel
-from qs_parse.image_processor import image_processor
+from models.processed_img import ProcessedImageModel
+from manipulations.img_processor import image_processor
 from resources.utils.file_helpers import is_valid_uuid
 from resources.utils.resource_fields import img_resource_field
 
@@ -30,9 +32,8 @@ class GetImage(Resource):
             parsed_pairs.append({item[0]: json.loads(item[1])})
 
         img_path, img_filename = image_processor(image.path, parsed_pairs)
-        # filename = secure_filename(img_filename)
-        # img = ProcessedImageModel(filename=filename, path=img_path)
-        # img.save_to_db()
+        filename = secure_filename(img_filename)
+        img = ProcessedImageModel(filename=filename, path=img_path)
+        img.save_to_db()
 
-        # return marshal(img, img_resource_field), 201
         return marshal(image, img_resource_field), 201
