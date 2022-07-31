@@ -24,10 +24,7 @@ class UploadImage(Resource):
         if not file or not check_allowed_file_type(file.filename):
             return {'message': 'Only pgn, jpeg, and jpg files are allowed'}, 400
 
-        file.seek(0, os.SEEK_END)
-        size = file.tell()
-
-        if not check_file_size(size):
+        if not check_file_size(request.content_length):
             return {'message': 'Max size allowed is 1MB'}, 400
         # End of edge cases
 
