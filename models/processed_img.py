@@ -6,7 +6,7 @@ from db import db
 
 
 class ProcessedImageModel(db.Model):
-    __tablename__ = 'processed_image'
+    __tablename__ = "processed_image"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     filename = db.Column(db.String(100))

@@ -18,9 +18,9 @@ def image_processor(img_location, query_params):
             src = func(src, value)
 
     filename, extension = os.path.basename(img_location).split(".")
-    new_filename = filename + f"-{uuid.uuid4()}." + extension
-    save_folder = os.getenv('PROCESSED_UPLOAD_FOLDER')
+    filename_uuid = filename + f"-{uuid.uuid4()}." + extension
+    save_folder = os.getenv("PROCESSED_UPLOAD_FOLDER")
 
-    cv2.imwrite(os.path.abspath("./" + save_folder + new_filename), src)
+    cv2.imwrite(os.path.abspath("./" + save_folder + filename_uuid), src)
 
-    return save_folder, new_filename
+    return save_folder, filename_uuid
