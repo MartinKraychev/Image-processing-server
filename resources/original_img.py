@@ -8,7 +8,7 @@ from models.original_img import OriginalImageModel
 from resources.utils.file_helpers import check_allowed_file_type, check_file_size
 from resources.utils.resource_fields import img_resource_field
 
-UPLOAD_FOLDER = 'static/original_images'
+save_folder = os.getenv('ORIGINAL_UPLOAD_FOLDER')
 
 
 class UploadImage(Resource):
@@ -30,9 +30,9 @@ class UploadImage(Resource):
 
         # Sanitize the name before storing it in the db
         filename = secure_filename(file.filename)
-        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        file_path = os.path.join("./" + save_folder + filename)
         file.save(file_path)
-        img = OriginalImageModel(filename=filename, path=os.path.abspath(file_path))
+        img = OriginalImageModel(filename=filename, path=save_folder+filename)
         img.save_to_db()
 
         return marshal(img, img_resource_field), 201
