@@ -11,7 +11,7 @@ class OriginalImageModel(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     filename = db.Column(db.String(100))
     path = db.Column(db.Text())
-    children = db.relationship("ProcessedImageModel")
+    images = db.relationship("ProcessedImageModel", cascade="all, delete")
 
     def __init__(self, filename, path):
         self.filename = filename
