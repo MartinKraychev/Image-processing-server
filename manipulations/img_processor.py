@@ -3,27 +3,19 @@ import uuid
 
 import cv2
 
-from manipulations.img_manipulations import rotate, resize, crop, flip, grayscale
+import manipulations.img_manipulations as img_man
 
 
 def image_processor(img_location, query_params):
     """
     Execute all image manipulations from the query parameters in the url, preserving the order.
     """
-    mapper = {
-        "rotate": rotate,
-        "resize": resize,
-        "crop": crop,
-        "flip": flip,
-        "grayscale": grayscale,
-    }
-
-    src = cv2.imread(img_location)
+    src = cv2.imread(os.path.abspath("./" + img_location))
 
     for el in query_params:
         for key, value in el.items():
-            if key in mapper:
-                src = mapper[key](src, value)
+            func = getattr(img_man, key)
+            src = func(src, value)
 
     filename, extension = os.path.basename(img_location).split(".")
     new_filename = filename + f"-{uuid.uuid4()}." + extension
