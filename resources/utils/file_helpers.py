@@ -1,6 +1,6 @@
 import uuid
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 FILE_MAX_SIZE = 1 * 1000 * 1000
 
 

@@ -15,6 +15,7 @@ from resources.utils.resource_fields import original_img_resource_field, process
 
 # Example http://localhost:5000/image/<id>?resize={"height":300, "width":150}&flip={"code":1}&resize={"height":500, "width":1000}
 
+
 class GetImage(Resource):
     """
     GET Endpoint by image id for processing images
@@ -24,13 +25,13 @@ class GetImage(Resource):
 
         # Edge cases
         if not is_valid_uuid(img_id):
-            return {'message': 'Invalid ID type'}, 400
+            return {"message": "Invalid ID type"}, 400
 
         image = OriginalImageModel.query.filter_by(id=img_id).first()
         query = urlsplit(request.url).query
 
         if not image:
-            return {'message': 'Image not found'}, 404
+            return {"message": "Image not found"}, 404
 
         if not query:
             return marshal(image, original_img_resource_field), 200
@@ -58,7 +59,6 @@ class GetImage(Resource):
 
         # Sanitizes the filename before it goes in the db
         filename = secure_filename(img_filename)
-
         img = ProcessedImageModel(filename=filename, path=img_path + filename, params=query, original_img_id=img_id)
         img.save_to_db()
 

@@ -16,16 +16,16 @@ load_dotenv()
 app = Flask(__name__)
 api = Api(app)
 
-app.config['PROPAGATE_EXCEPTIONS'] = True
+app.config["PROPAGATE_EXCEPTIONS"] = True
 # DATABASE_URL should follow this pattern for Postgre: postgresql://{username}:{password}@{host}:{port}/{db_name}
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
+
 app.secret_key = os.getenv('SECRET_KEY', 'sk')
 
-
-api.add_resource(UploadImage, '/images')
-api.add_resource(GetImage, '/image/<string:img_id>')
+api.add_resource(UploadImage, "/images")
+api.add_resource(GetImage, "/image/<string:img_id>")
 
 
 @app.before_first_request
@@ -33,5 +33,5 @@ def create_tables():
     db.create_all()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

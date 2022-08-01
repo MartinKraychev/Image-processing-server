@@ -19,23 +19,23 @@ class UploadImage(Resource):
     @staticmethod
     def post():
         # Edge cases
-        if 'file' not in request.files:
-            return {'message': "Key parameter 'file' not provided"}, 400
+        if "file" not in request.files:
+            return {"message": "Key parameter 'file' not provided"}, 400
 
-        file = request.files['file']
+        file = request.files["file"]
 
         if not file or not check_allowed_file_type(file.filename):
-            return {'message': 'Only pgn, jpeg, and jpg files are allowed'}, 400
+            return {"message": "Only png, jpeg and jpg files are allowed"}, 400
 
         if not check_file_size(request.content_length):
-            return {'message': 'Max size allowed is 1MB'}, 400
+            return {"message": "Max size allowed is 1MB"}, 400
         # End of edge cases
 
         # Sanitize the name before storing it in the db
         filename = secure_filename(file.filename)
         file_path = os.path.join("./" + save_folder + filename)
         file.save(file_path)
-        img = OriginalImageModel(filename=filename, path=save_folder+filename)
+        img = OriginalImageModel(filename=filename, path=save_folder + filename)
         img.save_to_db()
 
         return marshal(img, original_img_resource_field), 201
