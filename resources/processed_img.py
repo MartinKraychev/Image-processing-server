@@ -17,15 +17,24 @@ from resources.utils.resource_fields import img_resource_field
 class GetImage(Resource):
     @staticmethod
     def get(img_id):
+
         if not is_valid_uuid(img_id):
             return {'message': 'Invalid ID type'}, 400
 
         image = OriginalImageModel.query.filter_by(id=img_id).first()
+        query = urlsplit(request.url).query
 
         if not image:
             return {'message': 'Image not found'}, 404
 
-        query = urlsplit(request.url).query
+        if not query:
+            return marshal(image, img_resource_field), 200
+
+        cached_image = ProcessedImageModel.query.filter_by(params=query, original_img_id=img_id).first()
+
+        if cached_image:
+            return marshal(cached_image, img_resource_field), 200
+
         params_pairs = parse_qsl(query)
         parsed_pairs = []
         for item in params_pairs:
@@ -33,7 +42,7 @@ class GetImage(Resource):
 
         img_path, img_filename = image_processor(image.path, parsed_pairs)
         filename = secure_filename(img_filename)
-        img = ProcessedImageModel(filename=filename, path=img_path+filename)
+        img = ProcessedImageModel(filename=filename, path=img_path+filename, params=query, original_img_id=img_id)
         img.save_to_db()
 
         return marshal(img, img_resource_field), 201
