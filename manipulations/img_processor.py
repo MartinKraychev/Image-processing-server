@@ -19,7 +19,7 @@ def image_processor(img_location, query_params):
 
     filename, extension = os.path.basename(img_location).split(".")
     new_filename = filename + f"-{uuid.uuid4()}." + extension
-    save_folder = os.getenv('PROCESSED_UPLOAD_FOLDER')
+    save_folder = os.getenv('PROCESSED_UPLOAD_FOLDER', '/static/processed_images/')
 
     cv2.imwrite(os.path.abspath("./" + save_folder + new_filename), src)
 

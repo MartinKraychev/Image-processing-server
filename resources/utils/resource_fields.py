@@ -1,7 +1,16 @@
 from flask_restful import fields
 
-img_resource_field = {
+"""
+Serializers for images
+"""
+
+original_img_resource_field = {
     'id': fields.String,
-    'filename': fields.String,
     'path': fields.String
+}
+
+processed_img_resource_field = {
+    'id': fields.String,
+    'path': fields.String,
+    'original_img_id': fields.String
 }
