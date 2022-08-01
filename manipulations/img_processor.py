@@ -10,7 +10,7 @@ def image_processor(img_location, query_params):
     """
     Execute all image manipulations from the query parameters in the url, preserving the order.
     """
-    src = cv2.imread(img_location)
+    src = cv2.imread(os.path.abspath("./" + img_location))
 
     for el in query_params:
         for key, value in el.items():
