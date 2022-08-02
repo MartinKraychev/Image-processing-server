@@ -8,7 +8,7 @@ def check_allowed_file_type(filename):
     """
     Checks if the filename has an allowed extension type.
     """
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def check_file_size(size):
