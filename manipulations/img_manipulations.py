@@ -9,7 +9,8 @@ resize - {"resize":{"height":300,"width":300}}
 crop - {"crop":{"height":300,"width":300}}
 flip - {"flip":{"code":1}}
 grayscale - {"grayscale":{}}
-color_filter - {"color_filter":{"color":"red"}
+color filter - {"color_filter":{"color":"red"}}
+edge detection - {"edge_detection":{"low":80,"high":120}}
 """
 
 
@@ -91,3 +92,12 @@ def color_filter(src, color):
 
     # Add the foreground and the background
     return cv2.add(res, background)
+
+
+def edge_detection(src, edge_range):
+    low = int(edge_range["low"])
+    high = int(edge_range["high"])
+
+    return cv2.Canny(src, low, high)
+
+

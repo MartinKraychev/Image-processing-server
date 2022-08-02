@@ -61,6 +61,7 @@ Double quotes are mandatory.
 - flip - {"flip":{"code":1}}
 - grayscale - {"grayscale":{}}
 - color filter - {"color_filter":{"color":"red"}
+- edge detection - {"edge_detection":{"low":80,"high":120}}
 
 ## Example local URLs
 
@@ -76,6 +77,8 @@ Double quotes are mandatory.
   ```http://localhost:5000/image/{id}?grayscale={}```
 - color filter:
   ```http://localhost:5000/image/{id}?color_filter={"color":"red"}```
+- edge detection:
+  ```http://localhost:5000/image/{id}?edge_detection={"low":80,"high":120}```
 - chaining multiple image manipulations:
   ```http://localhost:5000/image/{id}?resize={"height":300,"width":150}&flip={"code":1}&rotate={"angle":90}&grayscale={}```
 
