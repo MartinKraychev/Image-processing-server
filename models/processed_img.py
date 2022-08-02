@@ -12,7 +12,9 @@ class ProcessedImageModel(db.Model):
     filename = db.Column(db.String(100))
     path = db.Column(db.Text())
     params = db.Column(db.Text())
-    original_img_id = db.Column(UUID, db.ForeignKey("original_image.id", ondelete="CASCADE"))
+    original_img_id = db.Column(
+        UUID, db.ForeignKey("original_image.id", ondelete="CASCADE")
+    )
 
     def __init__(self, filename, path, params, original_img_id):
         self.filename = filename
