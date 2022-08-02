@@ -63,30 +63,32 @@ Double quotes are mandatory.
 ## Example local URLs
 
 - rotate:
-  ```http://localhost:5000/image/73dbe0fd-c983-40dd-ad05-a69ebc6cc797?rotate={"angle":90}```
+  ```http://localhost:5000/image/{id}?rotate={"angle":90}```
 - resize:
-  ```http://localhost:5000/image/73dbe0fd-c983-40dd-ad05-a69ebc6cc797?resize={"height":300,"width":400}```
+  ```http://localhost:5000/image/{id}?resize={"height":300,"width":400}```
 - crop:
-  ```http://localhost:5000/image/73dbe0fd-c983-40dd-ad05-a69ebc6cc797?crop={"height":100,"width":100}```
+  ```http://localhost:5000/image/{id}?crop={"height":100,"width":100}```
 - flip:
-  ```http://localhost:5000/image/73dbe0fd-c983-40dd-ad05-a69ebc6cc797?flip={"code":-1}```
+  ```http://localhost:5000/image/{id}?flip={"code":-1}```
 - grayscale:
-  ```http://localhost:5000/image/73dbe0fd-c983-40dd-ad05-a69ebc6cc797?grayscale={}```
+  ```http://localhost:5000/image/{id}?grayscale={}```
 - chaining multiple image manipulations:
-  ```http://localhost:5000/image/73dbe0fd-c983-40dd-ad05-a69ebc6cc797?resize={"height":300,"width":150}&flip={"code":1}&rotate={"angle":90}&grayscale={}```
+  ```http://localhost:5000/image/{id}?resize={"height":300,"width":150}&flip={"code":1}&rotate={"angle":90}&grayscale={}```
 
 ## API Reference
 
 #### Upload an image
 
 ```http
-  POST /images
+  POST http://localhost:5000/images
 ```
+ If you are using Postman in the body go to form-data and add parameter 'file' as key and add the image as value.
+ Maximum upload size is 1MB and allowed extensions are jpg, jpeg and png.
 
 #### GET the processed image
 
 ```http
-  GET /static/processed_images/{filename}
+  GET //localhost:5000/image/{id}?{query_params}
 ```
 
 | Parameter  | Type     | Description                         |
