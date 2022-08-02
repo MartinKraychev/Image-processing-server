@@ -59,11 +59,14 @@ class GetImage(Resource):
         # Catch a raise from the manipulations module.
         try:
             img_path, img_filename = image_processor(image.path, parsed_pairs)
-
         except KeyError:
-            return {'message': 'Wrong key in the query parameters. Refer to the documentation for more details.'}
+            return {
+                "message": "Wrong key in the query parameters. Refer to the documentation for more details."
+            }
         except ValueError:
-            return {'message': 'Wrong value in the query parameters. Refer to the documentation for more details.'}
+            return {
+                "message": "Wrong value in the query parameters. Refer to the documentation for more details."
+            }
         # End of edge cases
 
         # Sanitizes the filename before it goes in the db
