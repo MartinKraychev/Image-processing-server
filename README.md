@@ -10,6 +10,7 @@ Upload an image and execute single or multiple manipulations on it via query str
 - crop
 - flip
 - grayscale
+- color filter
 
 ## Environment Variables
 
@@ -59,6 +60,7 @@ Double quotes are mandatory.
 - crop - {"crop":{"height":300,"width":300}}
 - flip - {"flip":{"code":1}}
 - grayscale - {"grayscale":{}}
+- color filter - {"color_filter":{"color":"red"}
 
 ## Example local URLs
 
@@ -72,6 +74,8 @@ Double quotes are mandatory.
   ```http://localhost:5000/image/{id}?flip={"code":-1}```
 - grayscale:
   ```http://localhost:5000/image/{id}?grayscale={}```
+- color filter:
+  ```http://localhost:5000/image/{id}?color_filter={"color":"red"}```
 - chaining multiple image manipulations:
   ```http://localhost:5000/image/{id}?resize={"height":300,"width":150}&flip={"code":1}&rotate={"angle":90}&grayscale={}```
 
@@ -82,18 +86,20 @@ Double quotes are mandatory.
 ```http
   POST http://localhost:5000/images
 ```
- If you are using Postman in the body go to form-data and add parameter 'file' as key and add the image as value.
- Maximum upload size is 1MB and allowed extensions are jpg, jpeg and png.
+
+If you are using Postman, go to 'form-data' in the body tab and add parameter 'file' as key and add the image as value.
+Maximum upload size is 1MB and allowed extensions are jpg, jpeg and png.
 
 #### GET the processed image
 
 ```http
-  GET //localhost:5000/image/{id}?{query_params}
+  GET http://localhost:5000/image/{id}?{query_params}
 ```
 
-| Parameter  | Type     | Description                         |
-|:-----------|:---------|:------------------------------------|
-| `filename` | `string` | **Required**. UUID of item to fetch |
+| Parameter      | Type     | Description                                |
+|:---------------|:---------|:-------------------------------------------|
+| `id`           | `string` | **Required**. UUID of item to fetch        |
+| `query_params` | `string` | **Required**. Image manipulations sequence |
 
 ## Authors
 
