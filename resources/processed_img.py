@@ -54,7 +54,7 @@ class GetImage(Resource):
             for item in params_pairs:
                 parsed_pairs.append({item[0]: json.loads(item[1])})
         except JSONDecodeError:
-            return {"message": "Invalid json format"}
+            return {"message": "Invalid json format"}, 400
 
         # Catch a raise from the manipulations module.
         try:
@@ -62,11 +62,11 @@ class GetImage(Resource):
         except KeyError:
             return {
                 "message": "Wrong key in the query parameters. Refer to the documentation for more details."
-            }
+            }, 400
         except ValueError:
             return {
                 "message": "Wrong value in the query parameters. Refer to the documentation for more details."
-            }
+            }, 400
         # End of edge cases
 
         # Sanitizes the filename before it goes in the db

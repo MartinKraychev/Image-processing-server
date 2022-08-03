@@ -15,7 +15,7 @@ def check_file_size(size):
     """
     Checks if the file size is in the correct limits.
     """
-    return FILE_MAX_SIZE > size
+    return FILE_MAX_SIZE >= size
 
 
 def is_valid_uuid(val):
