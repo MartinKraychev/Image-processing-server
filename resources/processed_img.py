@@ -17,7 +17,7 @@ from resources.utils.resource_fields import (
 )
 
 
-# Example http://localhost:5000/image/<id>?resize={"height":300, "width":150}&flip={"code":1}&resize={"height":500, "width":1000}
+# Example https://flask-image-processor.herokuapp.com/image/<id>?resize={"height":300, "width":150}&flip={"code":1}&resize={"height":500, "width":1000}
 
 
 class GetImage(Resource):

@@ -8,8 +8,8 @@ import numpy as np
 
 import manipulations.img_manipulations as img_man
 
-SAVE_FOLDER = 'processed_images'
-TEMP_IMG_FOLDER = '/static/temp_images/'
+SAVE_FOLDER = "processed_images"
+TEMP_IMG_FOLDER = "/static/temp_images/"
 
 
 def image_processor(img_location, query_params):
@@ -38,4 +38,4 @@ def image_processor(img_location, query_params):
     # Removes the image
     os.remove(file_path)
 
-    return upload_result['url'], filename_uuid
+    return upload_result["url"], filename_uuid

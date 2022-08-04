@@ -9,7 +9,7 @@ from models.original_img import OriginalImageModel
 from resources.utils.file_helpers import check_allowed_file_type, check_file_size
 from resources.utils.resource_fields import original_img_resource_field
 
-SAVE_FOLDER = 'original_images'
+SAVE_FOLDER = "original_images"
 
 
 class UploadImage(Resource):
@@ -39,7 +39,7 @@ class UploadImage(Resource):
         upload_result = cloudinary.uploader.upload(file, folder=SAVE_FOLDER)
 
         # Saves the image location and name in the db
-        img = OriginalImageModel(filename=filename, path=upload_result['url'])
+        img = OriginalImageModel(filename=filename, path=upload_result["url"])
         img.save_to_db()
 
         return marshal(img, original_img_resource_field), 201
