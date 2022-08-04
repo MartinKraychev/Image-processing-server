@@ -33,9 +33,9 @@ class UploadImage(Resource):
 
         # Sanitize the name before storing it in the db
         filename = secure_filename(file.filename)
-        file_path = os.path.join("./" + save_folder + filename)
+        file_path = "./{}{}".format(save_folder, filename)
         file.save(file_path)
-        img = OriginalImageModel(filename=filename, path=save_folder + filename)
+        img = OriginalImageModel(filename=filename, path=os.path.join(save_folder, filename))
         img.save_to_db()
 
         return marshal(img, original_img_resource_field), 201

@@ -9,7 +9,7 @@ class OriginalImageModel(db.Model):
     __tablename__ = "original_image"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    filename = db.Column(db.String(100))
+    filename = db.Column(db.Text())
     path = db.Column(db.Text())
     processed_images = db.relationship("ProcessedImageModel", cascade="all, delete")
 

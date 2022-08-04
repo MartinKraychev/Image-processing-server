@@ -9,7 +9,7 @@ class ProcessedImageModel(db.Model):
     __tablename__ = "processed_image"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    filename = db.Column(db.String(100))
+    filename = db.Column(db.Text())
     path = db.Column(db.Text())
     params = db.Column(db.Text())
     original_img_id = db.Column(

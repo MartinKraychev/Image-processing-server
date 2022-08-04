@@ -1,4 +1,5 @@
 import json
+import os
 from json import JSONDecodeError
 from urllib.parse import urlsplit, parse_qsl
 
@@ -73,7 +74,7 @@ class GetImage(Resource):
         filename = secure_filename(img_filename)
         img = ProcessedImageModel(
             filename=filename,
-            path=img_path + filename,
+            path=os.path.join(img_path, filename),
             params=query,
             original_img_id=img_id,
         )
