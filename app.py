@@ -28,7 +28,10 @@ app.secret_key = os.getenv("SECRET_KEY", "sk")
 api.add_resource(UploadImage, "/images")
 api.add_resource(GetImage, "/image/<string:img_id>")
 
-cloudinary.config(cloud_name=os.getenv('CLOUD_NAME'), api_key=os.getenv('API_KEY'), api_secret=os.getenv('API_SECRET'))
+cloudinary.config(
+    cloud_name=os.getenv('CLOUD_NAME', 'dtxdbvgoo'),
+    api_key=os.getenv('API_KEY', '795737877112786'),
+    api_secret=os.getenv('API_SECRET', 'PKCT_vHBMJG71tn6xsaq4ROTPAM'))
 
 
 @app.before_first_request
