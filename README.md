@@ -3,6 +3,7 @@
 An image processing server using Python, OpenCV, Flask and PostgreSQL.
 Upload an image and execute single or multiple manipulations on it via query string.
 
+It is now deployed in Heroku. Cloudinary is used for file storage.
 ## Supported image manipulations
 
 - rotate
@@ -14,15 +15,19 @@ Upload an image and execute single or multiple manipulations on it via query str
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+If you want to run this project locally, you will need to add the following environment variables to your .env file
 
 `DATABASE_URL=postgresql://{username}:{password}@{host}:{port}/{db_name}`
 
 `SECRET_KEY={secret_key}`
 
-`ORIGINAL_UPLOAD_FOLDER = /static/original_images/`
+And have cloudinary account with configuration settings:
 
-`PROCESSED_UPLOAD_FOLDER = /static/processed_images/`
+`CLOUD_NAME={}`
+
+`API_KEY={}`
+
+`API_SECRET={}`
 
 ## Run Locally
 
@@ -50,44 +55,14 @@ Start the server
   flask run
 ```
 
-## Example query strings
 
-The query string should follow a strict naming convention.
-Double quotes are mandatory.
-
-- rotate - {"rotate":{"angle":45}}
-- resize - {"resize":{"height":300,"width":300}}
-- crop - {"crop":{"height":300,"width":300}}
-- flip - {"flip":{"code":1}}
-- grayscale - {"grayscale":{}}
-- color filter - {"color_filter":{"color":"red"}
-- edge detection - {"edge_detection":{"low":80,"high":120}}
-
-## Example local URLs
-
-- rotate:
-  ```http://localhost:5000/image/{id}?rotate={"angle":90}```
-- resize:
-  ```http://localhost:5000/image/{id}?resize={"height":300,"width":400}```
-- crop:
-  ```http://localhost:5000/image/{id}?crop={"height":100,"width":100}```
-- flip:
-  ```http://localhost:5000/image/{id}?flip={"code":-1}```
-- grayscale:
-  ```http://localhost:5000/image/{id}?grayscale={}```
-- color filter:
-  ```http://localhost:5000/image/{id}?color_filter={"color":"red"}```
-- edge detection:
-  ```http://localhost:5000/image/{id}?edge_detection={"low":80,"high":120}```
-- chaining multiple image manipulations:
-  ```http://localhost:5000/image/{id}?resize={"height":300,"width":150}&flip={"code":1}&rotate={"angle":90}&grayscale={}```
 
 ## API Reference
 
 #### Upload an image
 
 ```http
-  POST http://localhost:5000/images
+  POST https://flask-image-processor.herokuapp.com/images
 ```
 
 If you are using Postman, go to 'form-data' in the body tab and add parameter 'file' as key and add the image as value.
@@ -96,7 +71,7 @@ Maximum upload size is 1MB and allowed extensions are jpg, jpeg and png.
 #### GET the processed image
 
 ```http
-  GET http://localhost:5000/image/{id}?{query_params}
+  GET https://flask-image-processor.herokuapp.com/image/{id}?{query_params}
 ```
 
 | Parameter      | Type     | Description                                |
@@ -104,6 +79,26 @@ Maximum upload size is 1MB and allowed extensions are jpg, jpeg and png.
 | `id`           | `string` | **Required**. UUID of item to fetch        |
 | `query_params` | `string` | **Required**. Image manipulations sequence |
 
+
+## Example URLs
+
+- rotate:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?rotate={"angle":90}```
+- resize:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?resize={"height":300,"width":400}```
+- crop:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?crop={"height":100,"width":100}```
+- flip:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?flip={"code":-1}```
+- grayscale:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?grayscale={}```
+- color filter:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?color_filter={"color":"red"}```
+- edge detection:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?edge_detection={"low":80,"high":120}```
+- chaining multiple image manipulations:
+  ```https://flask-image-processor.herokuapp.com/image/{id}?resize={"height":300,"width":150}&flip={"code":1}&rotate={"angle":90}&grayscale={}```
+- 
 ## Authors
 
 - [@MartinKraychev](https://github.com/MartinKraychev)
