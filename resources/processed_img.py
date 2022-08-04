@@ -1,5 +1,5 @@
 import json
-import os
+
 from json import JSONDecodeError
 from urllib.parse import urlsplit, parse_qsl
 
@@ -72,9 +72,11 @@ class GetImage(Resource):
 
         # Sanitizes the filename before it goes in the db
         filename = secure_filename(img_filename)
+
+        # Saves the image location and name in the db
         img = ProcessedImageModel(
             filename=filename,
-            path=os.path.join(img_path, filename),
+            path=img_path,
             params=query,
             original_img_id=img_id,
         )

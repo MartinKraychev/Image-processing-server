@@ -1,5 +1,6 @@
 import os
 
+import cloudinary.uploader
 from flask import request
 from flask_restful import Resource, marshal
 from werkzeug.utils import secure_filename
@@ -8,7 +9,7 @@ from models.original_img import OriginalImageModel
 from resources.utils.file_helpers import check_allowed_file_type, check_file_size
 from resources.utils.resource_fields import original_img_resource_field
 
-save_folder = os.getenv("ORIGINAL_UPLOAD_FOLDER", "/static/original_images/")
+SAVE_FOLDER = 'original_images'
 
 
 class UploadImage(Resource):
@@ -33,9 +34,12 @@ class UploadImage(Resource):
 
         # Sanitize the name before storing it in the db
         filename = secure_filename(file.filename)
-        file_path = "./{}{}".format(save_folder, filename)
-        file.save(file_path)
-        img = OriginalImageModel(filename=filename, path=os.path.join(save_folder, filename))
+
+        # Uploads the image in cloudinary
+        upload_result = cloudinary.uploader.upload(file, folder=SAVE_FOLDER)
+
+        # Saves the image location and name in the db
+        img = OriginalImageModel(filename=filename, path=upload_result['url'])
         img.save_to_db()
 
         return marshal(img, original_img_resource_field), 201
